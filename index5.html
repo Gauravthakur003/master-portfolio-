@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Portfolio - Responsive Personal Website</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7fafc;
+      color: #2d3748;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    body.dark {
+      background-color: #2d3748;
+      color: #edf2f7;
+    }
+
+    body.dark a {
+      color: #63b3ed;
+    }
+
+    img {
+      width: 229px;
+      border-radius: 130px;
+    }
+
+    video {
+      width: 300px;
+    }
+
+    header {
+      background-color: #4c51bf;
+      color: white;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    header nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    header nav a {
+      font-size: 1rem;
+      color: white;
+    }
+
+    header nav a:hover {
+      color: #63b3ed;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      color: #4c51bf;
+      border-bottom: 2px solid #4c51bf;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    
+
+    footer {
+      background-color: #4c51bf;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: #2d3748;
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      z-index: 20;
+    }
+
+    .welcome-content,
+    .intro-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .welcome-text,
+    .intro-text {
+      flex: 1;
+    }
+
+    .welcome-media,
+    .intro-video {
+      flex: 1;
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: 0;
+    }
+
+    @media (max-width: 768px) {
+      .welcome-content,
+      .intro-content {
+        flex-direction: column;
+      }
+      .resume-button {
+  display: inline-block;
+  background-color: #4c51bf;
+  color: rgb(7, 57, 150);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.resume-button:hover {
+  background-color: #5a67d8;
+}
+
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">MyPortfolio</div>
+      <nav id="nav-menu">
+        <a href="#welcome">Welcome</a>
+        <a href="#about">About Me</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#goals">Future Goals</a>
+        <a href="#personal">Personal Side</a>
+        <a href="#introduction">Introduction</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="welcome">
+      <h2>Welcome</h2>
+      <div class="quote">
+        <h3>Website where Dreams Meet Reality..!!</h3>
+      </div>
+      <div class="welcome-content">
+        <div class="welcome-text">
+          <p>
+            Welcome to my personal portfolio website! I'm excited to share a bit about myself,
+            my achievements, and my aspirations with you. Feel free to explore and learn more 
+            about who I am and what drives me.
+          </p>
+        </div>
+        <div class="welcome-media">
+          <img src="pic1.jpg" alt="Portrait photo of me" />
+        </div>
+      </div>
+    </section>
+
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <div class="intro-content">
+        <div class="intro-video">
+          <video controls>
+            <source src="intro 1 .mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="intro-text">
+          <p>
+            Hi, I'm Gaurav Thakur, and in this video, I introduce myself, share my passions,
+            and talk a little bit about what you can expect to see on my portfolio site. It's a
+            great way to get to know me before diving deeper into my journey!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <div>
+        <p><strong>Name:</strong> Gaurav Thakur</p>
+        <p><strong>Location:</strong> Mumbai, Maharashtra, India</p>
+        <p><strong>Education:</strong> Bachelor of Engineering</p>
+        <p><strong>Languages Known:</strong></p>
+        <ul>
+          <li>English</li>
+          <li>Hindi</li>
+          <li>Marathi (Basic)</li>
+        </ul>
+      </div>
+    </section>
+    <section id="resume">
+        <h2>Download My Resume</h2>
+        <a href="resume.pdf" download class="resume-button">Download Resume (PDF)</a>
+      </section>
+
+    <section id="achievements">
+      <h2>Achievements</h2>
+      <ul>
+        <li>Developed and launched a mobile app with 10,000+ downloads</li>
+        <li>Received 'Best Project' award at University Hackathon 2023</li>
+        <li>Volunteered as a coding coach for local high school students</li>
+      </ul>
+    </section>
+
+    <section id="goals">
+      <h2>Future Goals</h2>
+      <p>
+        My aim is to become a software architect and lead innovative projects that positively impact people's lives. I seek to contribute to open-source communities and mentor upcoming developers to foster growth and inclusivity in tech.
+      </p>
+    </section>
+
+    <section id="personal">
+      <h2>Personal Side</h2>
+      <p><strong>Hobbies:</strong> I love hiking, photography, and reading science fiction.</p>
+      <p><strong>Favourite Role Models:</strong></p>
+      <ul>
+        <li>Ada Lovelace – Pioneer in computing</li>
+        <li>Elon Musk – Visionary entrepreneur</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <div>
+        <p><strong>Email:</strong> <a href="mailto:123gaurav2054@sjcem.edu.in">123gaurav2054@sjcem.edu.in</a></p>
+        <p><strong>Phone:</strong> <a href="tel:+918692029659">+91 869 202 9659</a></p>
+        <p><strong>WhatsApp:</strong> <a href="https://wa.me/918692029659">Chat with me on WhatsApp</a></p>
+        <a href="https://wa.me/918692029659">Chat on WhatsApp</a>
+        <p><strong>Social Media:</strong></p>
+        <ul>
+          <li><a href="https://github.com/gauravthakur003" target="_blank">GitHub</a></li>
+          <li><a href="https://linkedin.com/in/gaurav-thakur" target="_blank">LinkedIn</a></li>
+        </ul>
+        <h3>Google Map Location</h3>
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609893525!2d72.74110073250314!3d19.082522317060204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b63fd22547af%3A0xf4095a5c03a3a84a!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1682198469003!5m2!1sen!2sin" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Gaurav Thakur | <a href="mailto:123gaurav2054@sjcem.edu.in">123gaurav2054@sjcem.edu.in</a></p>
+  </footer>
+
+  <script>
+    const themeToggle = document.createElement('button');
+    themeToggle.textContent = '🌙';
+    themeToggle.classList.add('theme-toggle');
+    document.body.appendChild(themeToggle);
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      themeToggle.textContent = '☀️';
+    }
+  </script>
+</body>
+</html>

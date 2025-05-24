@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFits - Online Clothing Brand</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a202c;
+            color: #f7fafc;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c5282;
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        header nav {
+            display: none;
+        }
+        header nav ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease-in-out;
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+        }
+        header nav ul li a:hover {
+            color: #a0aec0;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .hamburger-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+        .hamburger-button span {
+            background-color: white;
+            height: 2px;
+            width: 100%;
+            margin: 3px 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .hamburger-button.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger-button.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-button.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        @media (min-width: 768px) {
+            header nav {
+                display: block;
+            }
+            .hamburger-button {
+                display: none;
+            }
+            header nav ul {
+                flex-direction: row;
+                margin-top: 0;
+            }
+        }
+        section {
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.25rem;
+            justify-items: center;
+        }
+        .product-card {
+            background: #2d3748;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+        .product-card h3 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: #cbd5e0;
+        }
+        .product-card .price {
+            font-size: 1.1rem;
+            color: #a0aec0;
+            margin-bottom: 0.75rem;
+        }
+        .add-to-cart-btn {
+            background-color: #48bb78;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #38a169;
+            transform: scale(1.05);
+        }
+        footer {
+            background-color: #2c5282;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        #order-modal {
+            display: none;
+            position: fixed;
+            z-index: 20;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+        }
+        .modal-content {
+            background-color: #4a5568;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #6b7280;
+            width: 80%;
+            border-radius: 0.5rem;
+            position: relative;
+            color: #f7fafc;
+        }
+        .close-button {
+            color: #cbd5e0;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #cart-items {
+            margin-top: 1rem;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #6b7280;
+        }
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+            margin-right: 1rem;
+        }
+        .cart-item-details {
+            flex-grow: 1;
+        }
+        #checkout-button {
+            background-color: #667eea;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease-in-out transform 0.2s ease-in-out;
+        }
+        #checkout-button:hover {
+            background-color: #4c51bf;
+            transform: scale(1.02);
+        }
+        #bill-modal {
+            display: none;
+            position: fixed;
+            z-index: 30;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+        }
+        .bill-content {
+            background-color: #4a5568;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #6b7280;
+            width: 80%;
+            border-radius: 0.5rem;
+            position: relative;
+            color: #f7fafc;
+        }
+        #bill-details {
+            margin-top: 1rem;
+        }
+        .bill-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+        }
+        .total {
+            font-weight: bold;
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #6b7280;
+        }
+        #delivery-modal {
+            display: none;
+            position: fixed;
+            z-index: 40;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+        }
+        .delivery-content {
+            background-color: #4a5568;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #6b7280;
+            width: 80%;
+            border-radius: 0.5rem;
+            position: relative;
+            color: #f7fafc;
+            text-align: center;
+        }
+        #delivery-status {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #68d391;
+        }
+        .delivery-close-button {
+            color: #cbd5e0;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .delivery-close-button:hover,
+        .delivery-close-button:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #order-history-modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+        }
+        .order-history-content {
+            background-color: #4a5568;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #6b7280;
+            width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            border-radius: 0.5rem;
+            position: relative;
+            color: #f7fafc;
+        }
+        .order-history-close-button {
+            color: #cbd5e0;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .order-history-close-button:hover,
+        .order-history-close-button:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .order-item-history {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid #6b7280;
+            border-radius: 0.375rem;
+            text-align: left;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .order-item-history img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+        }
+        .order-item-details-history {
+            flex-grow: 1;
+        }
+        .order-item-details-history h4 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .order-item-details-history p {
+            margin-bottom: 0.3rem;
+        }
+        .rating-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #6b7280;
+        }
+        .rating-section h5 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .rating {
+            display: inline-block;
+        }
+        .star {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            cursor: pointer;
+            margin-right: 0.2rem;
+        }
+        .star.active {
+            color: #facc15;
+        }
+        .offer-banner {
+            background-color: #d69e2e;
+            color: #1a202c;
+            padding: 1rem 0;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .offer-banner:hover {
+            background-color: #b7791f;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #cbd5e0;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #4a5568;
+            background-color: #2d3748;
+            color: #f7fafc;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .submit-button {
+            background-color: #4299e1;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #3182ce;
+            transform: scale(1.02);
+        }
+
+        /* Trending Section Specific Styles */
+        #trending {
+            padding: 6rem 1rem; /* More padding */
+            overflow: hidden; /* To handle transitions */
+            position: relative; /* For background image positioning */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white; /* Ensure text is visible over background */
+        }
+
+        #trending::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for text readability */
+            z-index: 1;
+        }
+
+        #trending .container {
+            position: relative;
+            z-index: 2; /* Ensure content is above the overlay */
+        }
+
+        .trending-content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 450px; /* Ensure space for content and offer */
+            background: rgba(0, 0, 0, 0.4); /* Slightly darker background for internal content */
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            background-color: #917f7f;
+            background-image: url(bg.jpg);
+            background-size: cover;
+        }
+
+        .trending-item {
+            position: relative; /* For image within content wrapper */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            width: 100%; /* Take full width of wrapper */
+        }
+
+        .trending-item.active {
+            opacity: 1;
+        }
+
+        .trending-item img {
+            max-width: 300px; /* Larger image */
+            max-height: 300px;
+            object-fit: contain; /* Ensure full image is visible */
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.5rem;
+            border: 3px solid #667eea; /* Accent border */
+            background-color: white; /* White background for items to stand out */
+        }
+
+        .trending-item h3 {
+            font-size: 2.5rem; /* Larger font size */
+            color: #e2e8f0;
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .trending-item p {
+            font-size: 1.8rem; /* Larger font size */
+            color: #a0aec0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .item-offer {
+            margin-top: 1.5rem;
+            background-color: #e53e3e; /* Red for offer */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            animation: pulse 1.5s infinite; /* Pulsing animation for offer */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .trending-item img {
+                max-width: 180px;
+                max-height: 180px;
+            }
+            .trending-item h3 {
+                font-size: 1.8rem;
+            }
+            .trending-item p {
+                font-size: 1.4rem;
+            }
+            .item-offer {
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+        /* Payment Method Styles */
+        .payment-methods {
+            margin-top: 1.5rem;
+            border-top: 1px solid #6b7280;
+            padding-top: 1rem;
+            text-align: left;
+        }
+        .payment-methods h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #cbd5e0;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            padding: 0.75rem;
+            border: 1px solid #6b7280;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s ease;
+        }
+        .payment-option:hover {
+            background-color: #2d3748;
+        }
+        .payment-option input[type="radio"] {
+            margin-right: 1rem;
+            transform: scale(1.2);
+        }
+        .payment-option label {
+            font-size: 1.1rem;
+            color: #f7fafc;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+        .payment-option i {
+            font-size: 1.5rem;
+            margin-left: 0.5rem;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-50">
+    <div id="offer-banner" class="offer-banner animate__animated animate__slideInDown animate__delay-0.5s">
+        Limited Time Offer! Get 20% off on all Hoodies!
+    </div>
+    <header class="bg-blue-800 text-white sticky top-0 z-10 animate__animated animate__fadeInDown">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="logo">
+                <a href="#" class="text-xl font-bold">SmartFits</a>
+            </div>
+            <button id="hamburger-btn" class="hamburger-button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav id="main-nav">
+                <ul class="">
+                    <li><a href="#shop" class="hover:text-gray-400">Shop</a></li>
+                    <li><a href="#contact" class="hover:text-gray-400">Contact</a></li>
+                    <li><a href="#orders" class="hover:text-gray-400">Orders</a></li>
+                    <li><button id="view-cart-btn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition duration-300 transform hover:scale-105">View Cart (<span id="cart-count">0</span>)</button></li>
+                    <li><button id="view-order-history-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded transition duration-300 transform hover:scale-105">Order History</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="trending" class="animate__animated animate__fadeIn" style="background-image: url('https://source.unsplash.com/1600x900/?fashion,clothing,style');">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-extrabold mb-12 text-center animate__animated animate__slideInUp text-yellow-300">⭐ Trending Now ⭐</h2>
+
+            <div class="trending-content-wrapper relative">
+                <div id="trending-item-display" class="relative w-full h-full flex justify-center items-center">
+                    </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="shop" class="py-16">
+        <div class="container mx-auto px-4"><h2 class="text-2xl font-semibold mb-8 text-center animate__animated animate__slideInUp">Shop Our Collection</h2>
+            <div class="product-grid">
+                <div class="product-card animate__animated animate__fadeInUp animate__delay-1s">
+                    <img src="Tshirts2.avif" alt="T-shirt" class="rounded-lg mb-3">
+                    <h3 class="text-xl mb-2">Classic Tee</h3>
+                    <p class="text-lg text-gray-400 mb-3">$19.99</p>
+                    <button class="add-to-cart-btn" data-id="1" data-name="Classic Tee" data-price="19.99" data-image="tshirt.webp">Add to Cart</button>
+                </div>
+                <div class="product-card animate__animated animate__fadeInUp animate__delay-2s">
+                    <img src="jeans.webp" alt="Slim Fit Jeans" class="rounded-lg mb-3">
+                    <h3 class="text-xl mb-2">Slim Fit Jeans</h3>
+                    <p class="text-lg text-gray-400 mb-3">$39.99</p>
+                    <button class="add-to-cart-btn" data-id="2" data-name="Slim Fit Jeans" data-price="39.99" data-image="jeans.webp">Add to Cart</button>
+                </div>
+                <div class="product-card animate__animated animate__fadeInUp animate__delay-3s">
+                    <img src="hoodies.jpeg" alt="Comfort Hoodie" class="rounded-lg mb-3">
+                    <h3 class="text-xl mb-2">Comfort Hoodie</h3>
+                    <p class="text-lg text-gray-400 mb-3">$49.99</p>
+                    <button class="add-to-cart-btn" data-id="3" data-name="Comfort Hoodie" data-price="49.99" data-image="hoodies.jpeg">Add to Cart</button>
+                </div>
+                <div class="product-card animate__animated animate__fadeInUp animate__delay-4s">
+                    <img src="jacket.webp" alt="Urban Jacket" class="rounded-lg mb-3">
+                    <h3 class="text-xl mb-2">Urban Jacket</h3>
+                    <p class="text-lg text-gray-400 mb-3">$59.99</p>
+                    <button class="add-to-cart-btn" data-id="4" data-name="Urban Jacket" data-price="59.99" data-image="jacket.webp">Add to Cart</button>
+                </div>
+                <div class="product-card animate__animated animate__fadeInUp animate__delay-5s">
+                    <img src="Tshirts2.avif" alt="Graphic Tee" class="rounded-lg mb-3">
+                    <h3 class="text-xl mb-2">Graphic Tee</h3>
+                    <p class="text-lg text-gray-400 mb-3">$24.99</p>
+                    <button class="add-to-cart-btn" data-id="5" data-name="Graphic Tee" data-price="24.99" data-image="Tshirts2.avif">Add to Cart</button>
+                </div>
+                <div class="product-card animate__animated animate__fadeInUp animate__delay-6s">
+                    <img src="cap2.jpeg" alt="Stylish Cap" class="rounded-lg mb-3">
+                    <h3 class="text-xl mb-2">Stylish Cap</h3>
+                    <p class="text-lg text-gray-400 mb-3">$29.99</p>
+                    <button class="add-to-cart-btn" data-id="6" data-name="Stylish Cap" data-price="29.99" data-image="cap2.jpeg">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 bg-gray-800 animate__animated animate__fadeIn">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-semibold mb-8 text-center animate__animated animate__slideInUp">Get in Touch with SmartFits</h2>
+            <p class="text-gray-400 text-center mb-6">Have questions, feedback, or need assistance? Fill out the form below or reach out to us directly!</p>
+
+            <form class="max-w-xl mx-auto bg-gray-700 p-8 rounded-lg shadow-xl animate__animated animate__fadeInUp">
+                <div class="form-group">
+                    <label for="contact-name">Your Name</label>
+                    <input type="text" id="contact-name" name="name" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-email">Your Email</label>
+                    <input type="email" id="contact-email" name="email" placeholder="john.doe@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-subject">Subject</label>
+                    <input type="text" id="contact-subject" name="subject" placeholder="Question about my order">
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">Message</label>
+                    <textarea id="contact-message" name="message" placeholder="Type your message here..." required></textarea>
+                </div>
+                <button type="submit" class="submit-button w-full">Send Message</button>
+            </form>
+
+            <div class="text-center text-gray-300 mt-8">
+                <p class="mb-2"><i class="fas fa-envelope mr-2"></i> Email: <a href="mailto:support@smartfits.com" class="hover:underline">support@smartfits.com</a></p>
+                <p class="mb-4"><i class="fas fa-phone mr-2"></i> Phone: +1 (555) 123-4567</p>
+                <div class="flex justify-center space-x-4 text-xl">
+                    <a href="https://facebook.com/smartfits" class="hover:text-blue-500"><i class="fab fa-facebook-square"></i></a>
+                    <a href="https://instagram.com/smartfits" class="hover:text-pink-500"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com/smartfits" class="hover:text-red-600"><i class="fab fa-youtube"></i></a>
+                    <a href="https://twitter.com/smartfits" class="hover:text-blue-400"><i class="fab fa-twitter-square"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="orders" class="py-16 bg-gray-800 animate__animated animate__fadeIn">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-semibold mb-8 text-center animate__animated animate__slideInUp">Your Recent Orders</h2>
+            <div id="order-summary">
+                <p class="text-gray-400">No recent orders.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-8 text-center animate__animated animate__fadeInUp">
+        <div class="container mx-auto">
+            <a href="index.html" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300">Back to Portfolio</a>
+        </div>
+    </section>
+
+    <footer class="bg-blue-800 text-white text-center py-4 mt-8 animate__animated animate__fadeInUp">
+        <p>© 2025 SmartFits | <a href="mailto:223smart@smartfits.com" class="hover:underline">223smart@smartfits.com</a></p>
+    </footer>
+
+    <div id="order-modal" class="modal">
+        <div class="modal-content animate__animated animate__slideInDown">
+            <span class="close-button">×</span>
+            <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
+            <div id="cart-items">
+                <p class="text-gray-400">Your cart is empty.</p>
+            </div>
+            <button id="checkout-button" disabled class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded mt-4 transition duration-300 transform hover:scale-102">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div id="bill-modal" class="modal">
+        <div class="bill-content animate__animated animate__slideInDown">
+            <span class="close-button">×</span>
+            <h2 class="text-xl font-semibold mb-4">Your Bill</h2>
+            <div id="bill-details">
+            </div>
+            <div class="payment-methods">
+                <h3>Select Payment Method</h3>
+                <div class="form-group">
+                    <div class="payment-option">
+                        <input type="radio" id="pay-cash" name="payment-method" value="cash" checked>
+                        <label for="pay-cash">Cash on Delivery <i class="fas fa-money-bill-wave"></i></label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" id="pay-card" name="payment-method" value="card">
+                        <label for="pay-card">Credit/Debit Card <i class="fas fa-credit-card"></i></label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" id="pay-paypal" name="payment-method" value="paypal">
+                        <label for="pay-paypal">PayPal <i class="fab fa-paypal"></i></label>
+                    </div>
+                </div>
+            </div>
+            <button id="confirm-order-btn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mt-4 transition duration-300 transform hover:scale-102">Confirm Order & Deliver</button>
+        </div>
+    </div>
+
+    <div id="delivery-modal" class="modal">
+        <div class="delivery-content animate__animated animate__fadeIn">
+            <span class="delivery-close-button">×</span>
+            <h2 class="text-xl font-semibold mb-4">Delivery Status</h2>
+            <div id="delivery-status">
+                <p class="text-green-300">Your order has been placed. Preparing for delivery...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="order-history-modal" class="modal">
+        <div class="order-history-content animate__animated animate__slideInUp">
+            <span class="order-history-close-button">×</span>
+            <h2 class="text-xl font-semibold mb-4">Order History</h2>
+            <div id="order-history-items">
+                <p class="text-gray-400">No order history available.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const offerBanner = document.getElementById('offer-banner');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mainNav = document.getElementById('main-nav');
+            const viewOrderHistoryBtn = document.getElementById('view-order-history-btn');
+            const orderHistoryModal = document.getElementById('order-history-modal');
+            const orderHistoryCloseButton = orderHistoryModal.querySelector('.order-history-close-button');
+            const orderHistoryItemsDiv = document.getElementById('order-history-items');
+            const trendingItemDisplay = document.getElementById('trending-item-display');
+
+            const trendingItems = [
+                { name: "Oversized Comfort Hoodie", price: "54.99", image: "hoodies.jpeg", offer: "20% OFF! Use code HOODIE20" },
+                { name: "Lightweight Puffer Jacket", price: "79.99", image: "jacket.webp", offer: "Free Shipping! Limited Time" },
+                { name: "Vintage Baseball Cap", price: "22.99", image: "cap2.jpeg", offer: "Buy One Get One 50% Off!" },
+                { name: "Stylish Tracksuit Set", price: "89.99", image: "Tshirts2.avif", offer: "FLASH SALE! Extra 15% OFF" } // Using existing image
+                
+            ];
+            let currentTrendingItemIndex = 0;
+
+            function updateTrendingItemDisplay() {
+                const item = trendingItems[currentTrendingItemIndex];
+                trendingItemDisplay.innerHTML = `
+                    <div class="trending-item active animate__animated animate__fadeIn animate__slow">
+                        <img src="${item.image}" alt="${item.name}">
+                        <h3>${item.name}</h3>
+                        <p>$${item.price}</p>
+                        ${item.offer ? `<div class="item-offer">${item.offer}</div>` : ''}
+                    </div>
+                `;
+                currentTrendingItemIndex = (currentTrendingItemIndex + 1) % trendingItems.length;
+            }
+
+            // Initial display and set interval for rotation
+            updateTrendingItemDisplay();
+            setInterval(updateTrendingItemDisplay, 5000); // Change item every 5 seconds
+
+            setTimeout(() => {
+                offerBanner.textContent = "Summer Sale! Up to 30% off on selected items!";
+            }, 5000);
+
+            hamburgerBtn.addEventListener('click', () => {
+                hamburgerBtn.classList.toggle('open');
+                mainNav.style.display = mainNav.style.display === 'block' ? 'none' : 'block';
+            });
+
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            const viewCartBtn = document.getElementById('view-cart-btn');
+            const orderModal = document.getElementById('order-modal');
+            const cartItemsDiv = document.getElementById('cart-items');
+            const closeOrderModalBtn = orderModal.querySelector('.close-button');
+            const cartCountSpan = document.getElementById('cart-count');
+            const checkoutButton = document.getElementById('checkout-button');
+            const billModal = document.getElementById('bill-modal');
+            const closeBillModalBtn = billModal.querySelector('.close-button');
+            const billDetailsDiv = document.getElementById('bill-details');
+            const confirmOrderBtn = document.getElementById('confirm-order-btn');
+            const deliveryModal = document.getElementById('delivery-modal');
+            const deliveryCloseButton = deliveryModal.querySelector('.delivery-close-button');
+            const orderSummaryDiv = document.getElementById('order-summary');
+
+            let cart = JSON.parse(localStorage.getItem('smartfits_cart')) || [];
+            let pastOrders = JSON.parse(localStorage.getItem('smartfits_past_orders')) || [];
+            let deliveredOrders = JSON.parse(localStorage.getItem('smartfits_delivered_orders')) || [];
+            updateCartDisplay();
+            updateRecentOrdersDisplay();
+            updateCartCount();
+            updateOrderHistoryDisplay();
+
+            function updateCartCount() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCountSpan.textContent = totalItems;
+            }
+
+            function saveCart() {
+                localStorage.setItem('smartfits_cart', JSON.stringify(cart));
+                updateCartCount();
+                checkoutButton.disabled = cart.length === 0;
+            }
+
+            function savePastOrders() {
+                localStorage.setItem('smartfits_past_orders', JSON.stringify(pastOrders));
+            }
+
+            function saveDeliveredOrders() {
+                localStorage.setItem('smartfits_delivered_orders', JSON.stringify(deliveredOrders));
+            }
+
+            function updateCartDisplay() {
+                cartItemsDiv.innerHTML = '';
+                if (cart.length === 0) {
+                    cartItemsDiv.innerHTML = '<p class="text-gray-400">Your cart is empty.</p>';
+                    checkoutButton.disabled = true;
+                    return;
+                }
+                cart.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('cart-item');
+                    itemDiv.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-details">
+                            <p>${item.name}</p>
+                            <p class="text-gray-400">Price: $${item.price.toFixed(2)} | Quantity: ${item.quantity}</p>
+                        </div>
+                        <button class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded remove-from-cart-btn" data-id="${item.id}">Remove</button>
+                    `;
+                    cartItemsDiv.appendChild(itemDiv);
+                });
+                checkoutButton.disabled = false;
+            }
+
+            function updateRecentOrdersDisplay() {
+                orderSummaryDiv.innerHTML = '';
+                if (pastOrders.length === 0) {
+                    orderSummaryDiv.innerHTML = '<p class="text-gray-400">No recent orders.</p>';
+                    return;
+                }
+                const latestOrder = pastOrders[pastOrders.length - 1];
+                let orderDetailsHtml = `<h3 class="text-xl font-bold mb-2">Order #${latestOrder.orderId}</h3>`;
+                orderDetailsHtml += `<p class="mb-2">Total: $${latestOrder.total.toFixed(2)}</p>`;
+                orderDetailsHtml += `<p class="mb-2">Date: ${new Date(latestOrder.timestamp).toLocaleString()}</p>`;
+                orderDetailsHtml += `<p class="mb-4">Status: <span class="text-yellow-300">${latestOrder.status}</span></p>`;
+                orderDetailsHtml += `<p class="text-lg font-semibold mb-2">Items:</p>`;
+                latestOrder.items.forEach(item => {
+                    orderDetailsHtml += `<div class="flex justify-between items-center mb-1">
+                                            <span>${item.name} x ${item.quantity}</span>
+                                            <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                                         </div>`;
+                });
+                orderSummaryDiv.innerHTML = orderDetailsHtml;
+            }
+
+            function updateOrderHistoryDisplay() {
+                orderHistoryItemsDiv.innerHTML = '';
+                if (deliveredOrders.length === 0) {
+                    orderHistoryItemsDiv.innerHTML = '<p class="text-gray-400">No order history available.</p>';
+                    return;
+                }
+
+                deliveredOrders.forEach(order => {
+                    const orderContainer = document.createElement('div');
+                    orderContainer.classList.add('order-item-history', 'mb-4');
+                    orderContainer.innerHTML = `
+                        <div>
+                            <h4 class="text-xl font-bold mb-2">Order ID: #${order.orderId}</h4>
+                            <p class="text-gray-300 mb-1">Date: ${new Date(order.timestamp).toLocaleString()}</p>
+                            <p class="text-gray-300 mb-1">Total: $${order.total.toFixed(2)}</p>
+                            <p class="text-gray-300 mb-2">Status: <span class="text-green-400">${order.status}</span></p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            ${order.items.map(item => `
+                                <div class="flex items-center gap-2 bg-gray-600 p-2 rounded-md">
+                                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                                    <div>
+                                        <p class="font-semibold">${item.name}</p>
+                                        <p class="text-sm text-gray-400">Qty: ${item.quantity} | $${item.price.toFixed(2)} each</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="rating-section text-center w-full">
+                            <h5 class="mb-2">Rate your experience for this order:</h5>
+                            <div class="rating" data-order-id="${order.orderId}">
+                                <span class="star" data-value="1"><i class="far fa-star"></i></span>
+                                <span class="star" data-value="2"><i class="far fa-star"></i></span>
+                                <span class="star" data-value="3"><i class="far fa-star"></i></span>
+                                <span class="star" data-value="4"><i class="far fa-star"></i></span>
+                                <span class="star" data-value="5"><i class="far fa-star"></i></span>
+                            </div>
+                            ${order.rating ? `<p class="mt-2 text-yellow-400">Your rating: ${order.rating} stars</p>` : '<p class="mt-2 text-gray-400">Not yet rated</p>'}
+                        </div>
+                    `;
+                    orderHistoryItemsDiv.appendChild(orderContainer);
+                });
+                attachStarRatingListeners();
+            }
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.target.dataset.id;
+                    const name = e.target.dataset.name;
+                    const price = parseFloat(e.target.dataset.price);
+                    const image = e.target.dataset.image;
+
+                    const existingItem = cart.find(item => item.id === id);
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        cart.push({ id, name, price, image, quantity: 1 });
+                    }
+                    saveCart();
+                    alert(`${name} added to cart!`);
+                });
+            });
+
+            viewCartBtn.addEventListener('click', () => {
+                updateCartDisplay();
+                orderModal.style.display = 'block';
+            });
+
+            closeOrderModalBtn.addEventListener('click', () => {
+                orderModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === orderModal) {
+                    orderModal.style.display = 'none';
+                }
+                if (e.target === billModal) {
+                    billModal.style.display = 'none';
+                }
+                if (e.target === deliveryModal) {
+                    deliveryModal.style.display = 'none';
+                }
+                if (e.target === orderHistoryModal) {
+                    orderHistoryModal.style.display = 'none';
+                }
+            });
+
+            cartItemsDiv.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-from-cart-btn')) {
+                    const idToRemove = e.target.dataset.id;
+                    cart = cart.filter(item => item.id !== idToRemove);
+                    saveCart();
+                    updateCartDisplay();
+                }
+            });
+
+            checkoutButton.addEventListener('click', () => {
+                if (cart.length === 0) {
+                    alert('Your cart is empty. Please add items before checking out.');
+                    return;
+                }
+                orderModal.style.display = 'none';
+                displayBill();
+                billModal.style.display = 'block';
+            });
+
+            closeBillModalBtn.addEventListener('click', () => {
+                billModal.style.display = 'none';
+            });
+
+            confirmOrderBtn.addEventListener('click', () => {
+                const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+                processPayment(selectedPaymentMethod);
+            });
+
+            deliveryCloseButton.addEventListener('click', () => {
+                deliveryModal.style.display = 'none';
+            });
+
+            viewOrderHistoryBtn.addEventListener('click', () => {
+                updateOrderHistoryDisplay();
+                orderHistoryModal.style.display = 'block';
+            });
+
+            orderHistoryCloseButton.addEventListener('click', () => {
+                orderHistoryModal.style.display = 'none';
+            });
+
+            function displayBill() {
+                billDetailsDiv.innerHTML = '';
+                let total = 0;
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    billDetailsDiv.innerHTML += `
+                        <div class="bill-item">
+                            <span>${item.name} x ${item.quantity}</span>
+                            <span>$${itemTotal.toFixed(2)}</span>
+                        </div>
+                    `;
+                });
+                billDetailsDiv.innerHTML += `<div class="total">Total: $${total.toFixed(2)}</div>`;
+            }
+
+            function processPayment(paymentMethod) {
+                // Simulate payment processing
+                const orderId = 'ORD-' + Math.floor(Math.random() * 1000000);
+                let orderStatus = '';
+                let deliveryMessage = '';
+
+                switch (paymentMethod) {
+                    case 'cash':
+                        orderStatus = 'Pending Payment (Cash on Delivery)';
+                        deliveryMessage = 'Your order has been placed with Cash on Delivery. It will be delivered in 3-5 business days.';
+                        break;
+                    case 'card':
+                        orderStatus = 'Payment Processing (Card)';
+                        deliveryMessage = 'Processing your card payment. Please wait...';
+                        setTimeout(() => {
+                            // Simulate successful card payment after a delay
+                            orderStatus = 'Payment Successful, Preparing for Delivery';
+                            deliveryMessage = 'Your card payment was successful! Your order will be delivered in 3-5 business days.';
+                            showDeliveryStatus(orderStatus, deliveryMessage);
+                            finalizeOrder(orderId, 'Confirmed', 'Delivery in 3-5 days', paymentMethod);
+                        }, 2000); // Simulate 2-second processing time
+                        break;
+                    case 'paypal':
+                        orderStatus = 'Payment Processing (PayPal)';
+                        deliveryMessage = 'Redirecting to PayPal for payment. Please complete the transaction.';
+                        setTimeout(() => {
+                            // Simulate successful PayPal payment after a delay
+                            orderStatus = 'Payment Successful, Preparing for Delivery';
+                            deliveryMessage = 'Your PayPal payment was successful! Your order will be delivered in 3-5 business days.';
+                            showDeliveryStatus(orderStatus, deliveryMessage);
+                            finalizeOrder(orderId, 'Confirmed', 'Delivery in 3-5 days', paymentMethod);
+                        }, 2000); // Simulate 2-second processing time
+                        break;
+                    default:
+                        orderStatus = 'Payment Method Not Selected';
+                        deliveryMessage = 'Please select a valid payment method.';
+                        break;
+                }
+
+                if (paymentMethod === 'cash') {
+                    showDeliveryStatus(orderStatus, deliveryMessage);
+                    finalizeOrder(orderId, 'Confirmed', 'Delivery in 3-5 days', paymentMethod);
+                } else if (paymentMethod !== 'card' && paymentMethod !== 'paypal') {
+                     // For other payment methods, simply show the initial status
+                     showDeliveryStatus(orderStatus, deliveryMessage);
+                     finalizeOrder(orderId, 'Confirmed', 'Delivery in 3-5 days', paymentMethod);
+                }
+
+
+            }
+
+            function showDeliveryStatus(status, message) {
+                billModal.style.display = 'none';
+                deliveryModal.style.display = 'block';
+                document.getElementById('delivery-status').innerHTML = `<p class="${status.includes('Successful') ? 'text-green-300' : 'text-yellow-300'}">${message}</p>`;
+            }
+
+            function finalizeOrder(orderId, status, deliveryInfo, paymentMethod) {
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const newOrder = {
+                    orderId: orderId,
+                    items: [...cart], // Copy cart items
+                    total: total,
+                    timestamp: new Date().toISOString(),
+                    status: status,
+                    deliveryInfo: deliveryInfo,
+                    paymentMethod: paymentMethod,
+                    rating: null // Initialize rating as null
+                };
+                pastOrders.push(newOrder);
+                deliveredOrders.push(newOrder); // Add to delivered orders for history
+                savePastOrders();
+                saveDeliveredOrders();
+
+                cart = []; // Clear cart after order
+                saveCart();
+                updateRecentOrdersDisplay(); // Update recent orders display immediately
+                updateCartCount(); // Update cart count to 0
+            }
+
+
+            function attachStarRatingListeners() {
+                document.querySelectorAll('.rating').forEach(ratingContainer => {
+                    const orderId = ratingContainer.dataset.orderId;
+                    const stars = ratingContainer.querySelectorAll('.star');
+
+                    stars.forEach(star => {
+                        star.addEventListener('click', function() {
+                            const value = parseInt(this.dataset.value);
+                            // Update UI: highlight selected stars
+                            stars.forEach(s => {
+                                if (parseInt(s.dataset.value) <= value) {
+                                    s.classList.add('active');
+                                    s.querySelector('i').classList.remove('far');
+                                    s.querySelector('i').classList.add('fas');
+                                } else {
+                                    s.classList.remove('active');
+                                    s.querySelector('i').classList.remove('fas');
+                                    s.querySelector('i').classList.add('far');
+                                }
+                            });
+                            // Store rating in deliveredOrders
+                            const orderIndex = deliveredOrders.findIndex(order => order.orderId === orderId);
+                            if (orderIndex !== -1) {
+                                deliveredOrders[orderIndex].rating = value;
+                                saveDeliveredOrders();
+                                // Optional: Update order history display to show new rating
+                                updateOrderHistoryDisplay();
+                            }
+                        });
+                    });
+
+                    // Restore rating from localStorage if available
+                    const orderInHistory = deliveredOrders.find(order => order.orderId === orderId);
+                    if (orderInHistory && orderInHistory.rating) {
+                        stars.forEach(star => {
+                            if (parseInt(star.dataset.value) <= orderInHistory.rating) {
+                                star.classList.add('active');
+                                star.querySelector('i').classList.remove('far');
+                                star.querySelector('i').classList.add('fas');
+                            }
+                        });
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>

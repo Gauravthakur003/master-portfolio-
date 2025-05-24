@@ -1,0 +1,353 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Portfolio - Responsive Personal Website</title>
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      scroll-behavior: smooth;
+      background: #f9f9f9;
+      color: #222;
+    }
+    body {
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color:rgb(102, 119, 118);
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover,
+    a:focus {
+      color: #004080;
+      outline: none;
+    }
+
+    /* Header and Navigation */
+    header {
+      background: #004080;
+      color: white;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      width: 95%;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav ul li {
+      font-weight: 600;
+    }
+    nav ul li a {
+      color: white;
+      font-weight: 600;
+    }
+
+    /* Main sections */
+    main {
+      flex-grow: 1;
+      max-width: 960px;
+      margin: 2rem auto;
+      width: 95%;
+    }
+    section {
+      margin-bottom: 3rem;
+      background: rgb(24, 231, 221);
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+    }
+    section:nth-child(odd) {
+      animation-delay: 0.15s;
+    }
+    section:nth-child(even) {
+      animation-delay: 0.3s;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    }
+    section h2 {
+      margin-bottom: 1rem;
+      color: #004080;
+      border-bottom: 3px solid #0066cc;
+      padding-bottom: 0.25rem;
+      font-size: 1.8rem;
+    }
+    /* Welcome Section */
+    .welcome-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+
+    }
+    .welcome-text {
+      flex: 1 1 320px;
+      font-size: 1.2rem;
+      text-align: top;
+    }
+    .welcome-media {
+      flex: 1 1 320px;
+      text-align: top;
+    }
+    .welcome-media img {
+      max-width: 230px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      margin-bottom: 1rem;
+      text-align:center;
+      text-align: top;
+    }
+    /* Video wrapper for responsive */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .video-wrapper iframe,
+    .video-wrapper video {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Lists styling */
+    ul.custom-list {
+      list-style-type: disc;
+      margin-left: 1.5rem;
+    }
+    ul.custom-list li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #004080;
+      color: white;
+      text-align: center;
+      padding: 1rem 2rem;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        background: #003060;
+        width: 100%;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0;
+        display: none;
+      }
+      nav ul.show-menu {
+        display: flex;
+      }
+      nav button.menu-toggle {
+        display: block;
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        user-select: none;
+      }
+      nav {
+        flex-wrap: nowrap;
+      }
+      .welcome-content {
+        flex-direction: column;
+      }
+      .welcome-media img {
+        max-width: 200px;
+      }
+      .quotes{
+        color:red;
+        background-color:aqua;
+        width:15px;
+
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo" tabindex="0">MyPortfolio</div>
+        <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+        <ul id="nav-menu">
+          <li><a href="#welcome" tabindex="0">Welcome</a></li>
+          <li><a href="#about" tabindex="0">About Me</a></li>
+          <li><a href="#achievements" tabindex="0">Achievements</a></li>
+          <li><a href="#goals" tabindex="0">Future Goals</a></li>
+          <li><a href="#personal" tabindex="0">Personal Side</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="welcome" tabindex="0" aria-label="Welcome Section">
+      <h2>Welcome</h2>
+      <div class="welcome-content">
+        <div class="welcome-media">
+          <img src="pic1.jpg" align ="center" alt="Portrait photo of me" />
+          <div class="video-wrapper" style="margin-top: 1rem;">
+            <video controls preload="metadata" aria-label="Video introduction about me" style="border-radius: 8px;">
+
+              <source src="intro 1 .mp4" align="center" type="video/mp4" />
+              <img src="pic1.jpg" align="center"  alt="My Photo">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        <div class="welcome-text">
+          <p>Welcome to my personal portfolio website! I'm excited to share a bit about myself, my achievements,
+             and my aspirations with you. Feel free to explore and learn more about who I am and what drives me.</p>
+        </div>
+        <div  class="quotes">
+          <P>
+            <h3>Website Were Dream Meets Reality..!!</h3>
+          </P>
+
+        </div>
+       
+      </div>
+    </section>
+
+    <section id="about" tabindex="0" aria-label="About Me Section">
+      <h2>About Me</h2>
+      <p><strong>Name:</strong> Gaurav Thakur</p>
+      <p><strong>Location:</strong> Mumbai, Maharashtra, India</p>
+      <p><strong>Education:</strong> Bachelor of Engineering</p>
+      <p><strong>Languages Known:</strong></p>
+      <ul class="custom-list" aria-label="Languages known">
+        <li>English </li>
+        <li>Hindi </li>
+        <li>Marathi (Basic)</li>
+      </ul>
+    </section>
+
+    <section id="achievements" tabindex="0" aria-label="Achievements Section">
+      <h2>Achievements</h2>
+      <ul class="custom-list" aria-label="List of achievements">
+        <li>Developed and launched a mobile app with 10,000+ downloads</li>
+        <li>Received 'Best Project' award at University Hackathon 2023</li>
+        <li>Volunteered as a coding coach for local high school students</li>
+      </ul>
+    </section>
+
+    <section id="goals" tabindex="0" aria-label="Future Goals Section">
+      <h2>Future Goals</h2>
+      <p>My aim is to become a software architect and lead innovative projects that positively impact people's lives.
+         I seek to contribute to open source communities and mentor upcoming developers to foster growth 
+         and inclusivity in tech.</p>
+    </section>
+
+    <section id="personal" tabindex="0" aria-label="Personal Side Section">
+      <h2>Personal Side</h2>
+      <p><strong>Hobbies:</strong> I love hiking, photography, and reading science fiction. 
+        These hobbies inspire creativity and mindfulness in my everyday life.</p>
+
+      <p><strong>Favourite Role Models:</strong></p>
+      <ul class="custom-list" aria-label="Favourite role models and reasons">
+        <li>Ada Lovelace – Pioneer in computing and an inspiration for women in STEM</li>
+        <li>Elon Musk – For his innovative leadership and vision for the future</li>
+      </ul>
+
+      <p><strong>Favourite Books, Websites, and Startups:</strong></p>
+      <ul class="custom-list" aria-label="Favourite books">
+        <li><strong>Books:</strong> "Clean Code" by Robert C. Martin, "The Pragmatic Programmer" by Andrew Hunt & 
+          David Thomas</li>
+        <li><strong>Websites:</strong> MDN Web Docs for learning web development, Hacker News for tech trends</li>
+        <li><strong>Startups:</strong> Notion – for productivity innovation; GitHub – for open source collaboration</li>
+      </ul>
+
+      <p><strong>Volunteering Experience:</strong> I have participated as a mentor in code clubs and contributed 
+        to non-profit tech projects focused on education and digital accessibility.</p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; Gaurav Thakur &nbsp;|&nbsp; <a href="mailto:123gaurav2054@sjcem.edu.in">1123gaurav2054@sjcem.edu.in</a> &nbsp;|&nbsp; <a href="https://github.com/janedoe" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+
+  <script>
+    // Toggle navigation menu for mobile
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !isExpanded);
+      navMenu.classList.toggle('show-menu');
+    });
+
+    // Close menu when link clicked (mobile)
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if(navMenu.classList.contains('show-menu')){
+          navMenu.classList.remove('show-menu');
+          menuToggle.setAttribute('aria-expanded', false);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
