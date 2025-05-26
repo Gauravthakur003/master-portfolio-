@@ -36,17 +36,29 @@
             font-weight: bold;
         }
         header nav {
-            display: none;
+            display: none; /* Hidden by default on mobile */
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #2c5282;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header nav.active {
+            display: block; /* Show when active */
         }
         header nav ul {
             list-style: none;
             padding: 0;
-            margin-top: 1rem;
+            margin: 0; /* Reset margin for mobile */
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            align-items: center; /* Center items on mobile */
         }
-        header nav ul li a {
+        header nav ul li a,
+        header nav ul li button {
             color: white;
             text-decoration: none;
             font-size: 1rem;
@@ -54,8 +66,10 @@
             display: block;
             padding: 0.5rem 1rem;
             border-radius: 0.25rem;
+            width: fit-content; /* Adjust width to content for buttons */
         }
-        header nav ul li a:hover {
+        header nav ul li a:hover,
+        header nav ul li button:hover {
             color: #a0aec0;
             background-color: rgba(255, 255, 255, 0.1);
         }
@@ -89,7 +103,11 @@
         }
         @media (min-width: 768px) {
             header nav {
-                display: block;
+                display: block; /* Always visible on desktop */
+                position: static; /* Remove absolute positioning */
+                width: auto;
+                box-shadow: none;
+                padding: 0;
             }
             .hamburger-button {
                 display: none;
@@ -97,6 +115,12 @@
             header nav ul {
                 flex-direction: row;
                 margin-top: 0;
+                align-items: center; /* Align items for horizontal nav */
+            }
+            header nav ul li a,
+            header nav ul li button {
+                padding: 0.5rem 1rem;
+                width: auto;
             }
         }
         section {
@@ -159,7 +183,7 @@
             padding: 1rem;
             margin-top: 2rem;
         }
-        #order-modal {
+        #order-modal, #bill-modal, #delivery-modal, #order-history-modal {
             display: none;
             position: fixed;
             z-index: 20;
@@ -169,28 +193,44 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0,0,0,0.7);
+            padding: 1rem; /* Added padding for smaller screens */
+            box-sizing: border-box; /* Ensure padding doesn't cause overflow */
         }
-        .modal-content {
+        .modal-content, .bill-content, .delivery-content, .order-history-content {
             background-color: #4a5568;
-            margin: 15% auto;
+            margin: 10% auto; /* Adjusted margin for better centering */
             padding: 20px;
             border: 1px solid #6b7280;
-            width: 80%;
+            width: 95%; /* Increased width for better mobile fit */
+            max-width: 600px; /* Max width for larger screens */
             border-radius: 0.5rem;
             position: relative;
             color: #f7fafc;
+            box-sizing: border-box; /* Ensure padding doesn't cause overflow */
         }
-        .close-button {
+        @media (min-width: 768px) {
+            .modal-content, .bill-content, .delivery-content {
+                width: 80%;
+            }
+            .order-history-content {
+                width: 90%;
+            }
+        }
+        .close-button, .delivery-close-button, .order-history-close-button {
             color: #cbd5e0;
             float: right;
             font-size: 28px;
             font-weight: bold;
+            cursor: pointer;
         }
         .close-button:hover,
-        .close-button:focus {
+        .close-button:focus,
+        .delivery-close-button:hover,
+        .delivery-close-button:focus,
+        .order-history-close-button:hover,
+        .order-history-close-button:focus {
             color: white;
             text-decoration: none;
-            cursor: pointer;
         }
         #cart-items {
             margin-top: 1rem;
@@ -211,6 +251,7 @@
         }
         .cart-item-details {
             flex-grow: 1;
+            text-align: left; /* Align text left */
         }
         #checkout-button {
             background-color: #667eea;
@@ -221,31 +262,12 @@
             cursor: pointer;
             margin-top: 1rem;
             transition: background-color 0.3s ease-in-out transform 0.2s ease-in-out;
+            width: 100%; /* Full width button */
+            max-width: 300px; /* Max width for larger screens */
         }
         #checkout-button:hover {
             background-color: #4c51bf;
             transform: scale(1.02);
-        }
-        #bill-modal {
-            display: none;
-            position: fixed;
-            z-index: 30;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.7);
-        }
-        .bill-content {
-            background-color: #4a5568;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #6b7280;
-            width: 80%;
-            border-radius: 0.5rem;
-            position: relative;
-            color: #f7fafc;
         }
         #bill-details {
             margin-top: 1rem;
@@ -261,79 +283,10 @@
             padding-top: 0.5rem;
             border-top: 1px solid #6b7280;
         }
-        #delivery-modal {
-            display: none;
-            position: fixed;
-            z-index: 40;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.7);
-        }
-        .delivery-content {
-            background-color: #4a5568;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #6b7280;
-            width: 80%;
-            border-radius: 0.5rem;
-            position: relative;
-            color: #f7fafc;
-            text-align: center;
-        }
         #delivery-status {
             margin-top: 1rem;
             font-weight: bold;
             color: #68d391;
-        }
-        .delivery-close-button {
-            color: #cbd5e0;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .delivery-close-button:hover,
-        .delivery-close-button:focus {
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        #order-history-modal {
-            display: none;
-            position: fixed;
-            z-index: 50;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.7);
-        }
-        .order-history-content {
-            background-color: #4a5568;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #6b7280;
-            width: 90%;
-            max-height: 80%;
-            overflow-y: auto;
-            border-radius: 0.5rem;
-            position: relative;
-            color: #f7fafc;
-        }
-        .order-history-close-button {
-            color: #cbd5e0;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .order-history-close-button:hover,
-        .order-history-close-button:focus {
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
         }
         .order-item-history {
             margin-bottom: 1rem;
@@ -342,8 +295,16 @@
             border-radius: 0.375rem;
             text-align: left;
             display: flex;
-            gap: 1rem;
-            align-items: center;
+            flex-direction: column; /* Stack details vertically on small screens */
+            gap: 0.5rem;
+            align-items: flex-start; /* Align items to start */
+        }
+        @media (min-width: 640px) {
+            .order-item-history {
+                flex-direction: row; /* Horizontal on larger screens */
+                align-items: center;
+                gap: 1rem;
+            }
         }
         .order-item-history img {
             width: 80px;
@@ -431,6 +392,8 @@
             text-decoration: none;
             transition: background-color 0.3s ease-in-out transform 0.2s ease-in-out;
             cursor: pointer;
+            width: 100%; /* Full width button */
+            max-width: 300px; /* Max width for larger screens */
         }
         .submit-button:hover {
             background-color: #3182ce;
@@ -477,9 +440,10 @@
             border-radius: 1rem;
             padding: 2rem;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
-            background-color: #917f7f;
-            background-image: url(bg.jpg);
+            background-color: #917f7f; /* Fallback for background image */
+            background-image: url('bg.jpg'); /* Ensure this image path is correct */
             background-size: cover;
+            background-position: center;
         }
 
         .trending-item {
@@ -615,7 +579,7 @@
                 <span></span>
             </button>
             <nav id="main-nav">
-                <ul class="">
+                <ul>
                     <li><a href="#shop" class="hover:text-gray-400">Shop</a></li>
                     <li><a href="#contact" class="hover:text-gray-400">Contact</a></li>
                     <li><a href="#orders" class="hover:text-gray-400">Orders</a></li>
@@ -638,13 +602,14 @@
     </section>
 
     <section id="shop" class="py-16">
-        <div class="container mx-auto px-4"><h2 class="text-2xl font-semibold mb-8 text-center animate__animated animate__slideInUp">Shop Our Collection</h2>
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-semibold mb-8 text-center animate__animated animate__slideInUp">Shop Our Collection</h2>
             <div class="product-grid">
                 <div class="product-card animate__animated animate__fadeInUp animate__delay-1s">
                     <img src="Tshirts2.avif" alt="T-shirt" class="rounded-lg mb-3">
                     <h3 class="text-xl mb-2">Classic Tee</h3>
                     <p class="text-lg text-gray-400 mb-3">$19.99</p>
-                    <button class="add-to-cart-btn" data-id="1" data-name="Classic Tee" data-price="19.99" data-image="tshirt.webp">Add to Cart</button>
+                    <button class="add-to-cart-btn" data-id="1" data-name="Classic Tee" data-price="19.99" data-image="Tshirts2.avif">Add to Cart</button>
                 </div>
                 <div class="product-card animate__animated animate__fadeInUp animate__delay-2s">
                     <img src="jeans.webp" alt="Slim Fit Jeans" class="rounded-lg mb-3">
@@ -800,6 +765,18 @@
             const offerBanner = document.getElementById('offer-banner');
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const mainNav = document.getElementById('main-nav');
+            const viewCartBtn = document.getElementById('view-cart-btn');
+            const cartCountSpan = document.getElementById('cart-count');
+            const orderModal = document.getElementById('order-modal');
+            const closeButtons = document.querySelectorAll('.close-button'); // Select all close buttons for modals
+            const cartItemsDiv = document.getElementById('cart-items');
+            const checkoutButton = document.getElementById('checkout-button');
+            const billModal = document.getElementById('bill-modal');
+            const billDetailsDiv = document.getElementById('bill-details');
+            const confirmOrderBtn = document.getElementById('confirm-order-btn');
+            const deliveryModal = document.getElementById('delivery-modal');
+            const deliveryCloseButton = document.querySelector('.delivery-close-button');
+            const deliveryStatusDiv = document.getElementById('delivery-status');
             const viewOrderHistoryBtn = document.getElementById('view-order-history-btn');
             const orderHistoryModal = document.getElementById('order-history-modal');
             const orderHistoryCloseButton = orderHistoryModal.querySelector('.order-history-close-button');
@@ -810,8 +787,7 @@
                 { name: "Oversized Comfort Hoodie", price: "54.99", image: "hoodies.jpeg", offer: "20% OFF! Use code HOODIE20" },
                 { name: "Lightweight Puffer Jacket", price: "79.99", image: "jacket.webp", offer: "Free Shipping! Limited Time" },
                 { name: "Vintage Baseball Cap", price: "22.99", image: "cap2.jpeg", offer: "Buy One Get One 50% Off!" },
-                { name: "Stylish Tracksuit Set", price: "89.99", image: "Tshirts2.avif", offer: "FLASH SALE! Extra 15% OFF" } // Using existing image
-                
+                { name: "Stylish Tracksuit Set", price: "89.99", image: "Tshirts2.avif", offer: "FLASH SALE! Extra 15% OFF" }
             ];
             let currentTrendingItemIndex = 0;
 
@@ -828,175 +804,95 @@
                 currentTrendingItemIndex = (currentTrendingItemIndex + 1) % trendingItems.length;
             }
 
-            // Initial display and set interval for rotation
+            // Initial display and set interval for trending items
             updateTrendingItemDisplay();
             setInterval(updateTrendingItemDisplay, 5000); // Change item every 5 seconds
 
-            setTimeout(() => {
-                offerBanner.textContent = "Summer Sale! Up to 30% off on selected items!";
-            }, 5000);
-
+            // Hamburger menu functionality
             hamburgerBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active'); // Use .active class to show/hide
                 hamburgerBtn.classList.toggle('open');
-                mainNav.style.display = mainNav.style.display === 'block' ? 'none' : 'block';
             });
 
-            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-            const viewCartBtn = document.getElementById('view-cart-btn');
-            const orderModal = document.getElementById('order-modal');
-            const cartItemsDiv = document.getElementById('cart-items');
-            const closeOrderModalBtn = orderModal.querySelector('.close-button');
-            const cartCountSpan = document.getElementById('cart-count');
-            const checkoutButton = document.getElementById('checkout-button');
-            const billModal = document.getElementById('bill-modal');
-            const closeBillModalBtn = billModal.querySelector('.close-button');
-            const billDetailsDiv = document.getElementById('bill-details');
-            const confirmOrderBtn = document.getElementById('confirm-order-btn');
-            const deliveryModal = document.getElementById('delivery-modal');
-            const deliveryCloseButton = deliveryModal.querySelector('.delivery-close-button');
-            const orderSummaryDiv = document.getElementById('order-summary');
+            // Hide nav on larger screens if it was opened by hamburger and then resized
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    mainNav.classList.remove('active'); // Ensure nav is not active on desktop
+                    hamburgerBtn.classList.remove('open');
+                }
+            });
 
-            let cart = JSON.parse(localStorage.getItem('smartfits_cart')) || [];
-            let pastOrders = JSON.parse(localStorage.getItem('smartfits_past_orders')) || [];
-            let deliveredOrders = JSON.parse(localStorage.getItem('smartfits_delivered_orders')) || [];
-            updateCartDisplay();
-            updateRecentOrdersDisplay();
-            updateCartCount();
-            updateOrderHistoryDisplay();
+            // Cart functionality
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
 
             function updateCartCount() {
-                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-                cartCountSpan.textContent = totalItems;
-            }
-
-            function saveCart() {
-                localStorage.setItem('smartfits_cart', JSON.stringify(cart));
-                updateCartCount();
+                cartCountSpan.textContent = cart.length;
                 checkoutButton.disabled = cart.length === 0;
             }
 
-            function savePastOrders() {
-                localStorage.setItem('smartfits_past_orders', JSON.stringify(pastOrders));
-            }
-
-            function saveDeliveredOrders() {
-                localStorage.setItem('smartfits_delivered_orders', JSON.stringify(deliveredOrders));
-            }
-
-            function updateCartDisplay() {
+            function renderCartItems() {
                 cartItemsDiv.innerHTML = '';
                 if (cart.length === 0) {
                     cartItemsDiv.innerHTML = '<p class="text-gray-400">Your cart is empty.</p>';
-                    checkoutButton.disabled = true;
                     return;
                 }
-                cart.forEach(item => {
-                    const itemDiv = document.createElement('div');
-                    itemDiv.classList.add('cart-item');
-                    itemDiv.innerHTML = `
+                cart.forEach((item, index) => {
+                    const cartItemDiv = document.createElement('div');
+                    cartItemDiv.classList.add('cart-item');
+                    cartItemDiv.innerHTML = `
                         <img src="${item.image}" alt="${item.name}">
                         <div class="cart-item-details">
-                            <p>${item.name}</p>
-                            <p class="text-gray-400">Price: $${item.price.toFixed(2)} | Quantity: ${item.quantity}</p>
+                            <h4 class="text-md font-semibold">${item.name}</h4>
+                            <p class="text-gray-400">$${item.price.toFixed(2)}</p>
                         </div>
-                        <button class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded remove-from-cart-btn" data-id="${item.id}">Remove</button>
+                        <button class="remove-from-cart-btn bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded" data-index="${index}">Remove</button>
                     `;
-                    cartItemsDiv.appendChild(itemDiv);
+                    cartItemsDiv.appendChild(cartItemDiv);
                 });
-                checkoutButton.disabled = false;
+                attachRemoveEventListeners();
             }
 
-            function updateRecentOrdersDisplay() {
-                orderSummaryDiv.innerHTML = '';
-                if (pastOrders.length === 0) {
-                    orderSummaryDiv.innerHTML = '<p class="text-gray-400">No recent orders.</p>';
-                    return;
-                }
-                const latestOrder = pastOrders[pastOrders.length - 1];
-                let orderDetailsHtml = `<h3 class="text-xl font-bold mb-2">Order #${latestOrder.orderId}</h3>`;
-                orderDetailsHtml += `<p class="mb-2">Total: $${latestOrder.total.toFixed(2)}</p>`;
-                orderDetailsHtml += `<p class="mb-2">Date: ${new Date(latestOrder.timestamp).toLocaleString()}</p>`;
-                orderDetailsHtml += `<p class="mb-4">Status: <span class="text-yellow-300">${latestOrder.status}</span></p>`;
-                orderDetailsHtml += `<p class="text-lg font-semibold mb-2">Items:</p>`;
-                latestOrder.items.forEach(item => {
-                    orderDetailsHtml += `<div class="flex justify-between items-center mb-1">
-                                            <span>${item.name} x ${item.quantity}</span>
-                                            <span>$${(item.price * item.quantity).toFixed(2)}</span>
-                                         </div>`;
+            function attachRemoveEventListeners() {
+                document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const indexToRemove = parseInt(e.target.dataset.index);
+                        cart.splice(indexToRemove, 1);
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        updateCartCount();
+                        renderCartItems();
+                    });
                 });
-                orderSummaryDiv.innerHTML = orderDetailsHtml;
             }
 
-            function updateOrderHistoryDisplay() {
-                orderHistoryItemsDiv.innerHTML = '';
-                if (deliveredOrders.length === 0) {
-                    orderHistoryItemsDiv.innerHTML = '<p class="text-gray-400">No order history available.</p>';
-                    return;
-                }
-
-                deliveredOrders.forEach(order => {
-                    const orderContainer = document.createElement('div');
-                    orderContainer.classList.add('order-item-history', 'mb-4');
-                    orderContainer.innerHTML = `
-                        <div>
-                            <h4 class="text-xl font-bold mb-2">Order ID: #${order.orderId}</h4>
-                            <p class="text-gray-300 mb-1">Date: ${new Date(order.timestamp).toLocaleString()}</p>
-                            <p class="text-gray-300 mb-1">Total: $${order.total.toFixed(2)}</p>
-                            <p class="text-gray-300 mb-2">Status: <span class="text-green-400">${order.status}</span></p>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            ${order.items.map(item => `
-                                <div class="flex items-center gap-2 bg-gray-600 p-2 rounded-md">
-                                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
-                                    <div>
-                                        <p class="font-semibold">${item.name}</p>
-                                        <p class="text-sm text-gray-400">Qty: ${item.quantity} | $${item.price.toFixed(2)} each</p>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="rating-section text-center w-full">
-                            <h5 class="mb-2">Rate your experience for this order:</h5>
-                            <div class="rating" data-order-id="${order.orderId}">
-                                <span class="star" data-value="1"><i class="far fa-star"></i></span>
-                                <span class="star" data-value="2"><i class="far fa-star"></i></span>
-                                <span class="star" data-value="3"><i class="far fa-star"></i></span>
-                                <span class="star" data-value="4"><i class="far fa-star"></i></span>
-                                <span class="star" data-value="5"><i class="far fa-star"></i></span>
-                            </div>
-                            ${order.rating ? `<p class="mt-2 text-yellow-400">Your rating: ${order.rating} stars</p>` : '<p class="mt-2 text-gray-400">Not yet rated</p>'}
-                        </div>
-                    `;
-                    orderHistoryItemsDiv.appendChild(orderContainer);
-                });
-                attachStarRatingListeners();
-            }
-
-            addToCartButtons.forEach(button => {
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const id = e.target.dataset.id;
-                    const name = e.target.dataset.name;
-                    const price = parseFloat(e.target.dataset.price);
-                    const image = e.target.dataset.image;
-
-                    const existingItem = cart.find(item => item.id === id);
-                    if (existingItem) {
-                        existingItem.quantity++;
-                    } else {
-                        cart.push({ id, name, price, image, quantity: 1 });
-                    }
-                    saveCart();
-                    alert(`${name} added to cart!`);
+                    const product = {
+                        id: e.target.dataset.id,
+                        name: e.target.dataset.name,
+                        price: parseFloat(e.target.dataset.price),
+                        image: e.target.dataset.image
+                    };
+                    cart.push(product);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount();
+                    alert(`${product.name} added to cart!`);
                 });
             });
 
             viewCartBtn.addEventListener('click', () => {
-                updateCartDisplay();
+                renderCartItems();
                 orderModal.style.display = 'block';
             });
 
-            closeOrderModalBtn.addEventListener('click', () => {
-                orderModal.style.display = 'none';
+            // Close buttons for all modals
+            document.querySelectorAll('.close-button, .delivery-close-button, .order-history-close-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    orderModal.style.display = 'none';
+                    billModal.style.display = 'none';
+                    deliveryModal.style.display = 'none';
+                    orderHistoryModal.style.display = 'none';
+                });
             });
 
             window.addEventListener('click', (e) => {
@@ -1014,189 +910,113 @@
                 }
             });
 
-            cartItemsDiv.addEventListener('click', (e) => {
-                if (e.target.classList.contains('remove-from-cart-btn')) {
-                    const idToRemove = e.target.dataset.id;
-                    cart = cart.filter(item => item.id !== idToRemove);
-                    saveCart();
-                    updateCartDisplay();
-                }
-            });
-
             checkoutButton.addEventListener('click', () => {
-                if (cart.length === 0) {
-                    alert('Your cart is empty. Please add items before checking out.');
-                    return;
-                }
                 orderModal.style.display = 'none';
-                displayBill();
+                renderBillDetails();
                 billModal.style.display = 'block';
             });
 
-            closeBillModalBtn.addEventListener('click', () => {
-                billModal.style.display = 'none';
-            });
-
-            confirmOrderBtn.addEventListener('click', () => {
-                const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
-                processPayment(selectedPaymentMethod);
-            });
-
-            deliveryCloseButton.addEventListener('click', () => {
-                deliveryModal.style.display = 'none';
-            });
-
-            viewOrderHistoryBtn.addEventListener('click', () => {
-                updateOrderHistoryDisplay();
-                orderHistoryModal.style.display = 'block';
-            });
-
-            orderHistoryCloseButton.addEventListener('click', () => {
-                orderHistoryModal.style.display = 'none';
-            });
-
-            function displayBill() {
+            function renderBillDetails() {
                 billDetailsDiv.innerHTML = '';
                 let total = 0;
                 cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    billDetailsDiv.innerHTML += `
-                        <div class="bill-item">
-                            <span>${item.name} x ${item.quantity}</span>
-                            <span>$${itemTotal.toFixed(2)}</span>
-                        </div>
+                    const billItemDiv = document.createElement('div');
+                    billItemDiv.classList.add('bill-item');
+                    billItemDiv.innerHTML = `
+                        <span>${item.name}</span>
+                        <span>$${item.price.toFixed(2)}</span>
                     `;
+                    billDetailsDiv.appendChild(billItemDiv);
+                    total += item.price;
                 });
-                billDetailsDiv.innerHTML += `<div class="total">Total: $${total.toFixed(2)}</div>`;
+                const totalDiv = document.createElement('div');
+                totalDiv.classList.add('total');
+                totalDiv.innerHTML = `<span>Total:</span><span>$${total.toFixed(2)}</span>`;
+                billDetailsDiv.appendChild(totalDiv);
             }
 
-            function processPayment(paymentMethod) {
-                // Simulate payment processing
-                const orderId = 'ORD-' + Math.floor(Math.random() * 1000000);
-                let orderStatus = '';
-                let deliveryMessage = '';
-
-                switch (paymentMethod) {
-                    case 'cash':
-                        orderStatus = 'Pending Payment (Cash on Delivery)';
-                        deliveryMessage = 'Your order has been placed with Cash on Delivery. It will be delivered in 3-5 business days.';
-                        break;
-                    case 'card':
-                        orderStatus = 'Payment Processing (Card)';
-                        deliveryMessage = 'Processing your card payment. Please wait...';
-                        setTimeout(() => {
-                            // Simulate successful card payment after a delay
-                            orderStatus = 'Payment Successful, Preparing for Delivery';
-                            deliveryMessage = 'Your card payment was successful! Your order will be delivered in 3-5 business days.';
-                            showDeliveryStatus(orderStatus, deliveryMessage);
-                            finalizeOrder(orderId, 'Confirmed', 'Delivery in 3-5 days', paymentMethod);
-                        }, 2000); // Simulate 2-second processing time
-                        break;
-                    case 'paypal':
-                        orderStatus = 'Payment Processing (PayPal)';
-                        deliveryMessage = 'Redirecting to PayPal for payment. Please complete the transaction.';
-                        setTimeout(() => {
-                            // Simulate successful PayPal payment after a delay
-                            orderStatus = 'Payment Successful, Preparing for Delivery';
-                            deliveryMessage = 'Your PayPal payment was successful! Your order will be delivered in 3-5 business days.';
-                            showDeliveryStatus(orderStatus, deliveryMessage);
-                            finalizeOrder(orderId, 'Confirmed', 'Delivery in 3-5 days', paymentMethod);
-                        }, 2000); // Simulate 2-second processing time
-                        break;
-                    default:
-                        orderStatus = 'Payment Method Not Selected';
-                        deliveryMessage = 'Please select a valid payment method.';
-                        break;
-                }
-
-                if (paymentMethod === 'cash') {
-                    showDeliveryStatus(orderStatus, deliveryMessage);
-                    finalizeOrder(orderId, 'Confirmed', 'Delivery in 3-5 days', paymentMethod);
-                } else if (paymentMethod !== 'card' && paymentMethod !== 'paypal') {
-                     // For other payment methods, simply show the initial status
-                     showDeliveryStatus(orderStatus, deliveryMessage);
-                     finalizeOrder(orderId, 'Confirmed', 'Delivery in 3-5 days', paymentMethod);
-                }
-
-
-            }
-
-            function showDeliveryStatus(status, message) {
+            confirmOrderBtn.addEventListener('click', () => {
                 billModal.style.display = 'none';
                 deliveryModal.style.display = 'block';
-                document.getElementById('delivery-status').innerHTML = `<p class="${status.includes('Successful') ? 'text-green-300' : 'text-yellow-300'}">${message}</p>`;
-            }
+                // Simulate delivery process
+                setTimeout(() => {
+                    deliveryStatusDiv.innerHTML = '<p class="text-green-300">Your order has been delivered!</p>';
+                }, 3000); // 3 seconds for simulated delivery
 
-            function finalizeOrder(orderId, status, deliveryInfo, paymentMethod) {
-                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                const newOrder = {
-                    orderId: orderId,
-                    items: [...cart], // Copy cart items
-                    total: total,
-                    timestamp: new Date().toISOString(),
-                    status: status,
-                    deliveryInfo: deliveryInfo,
-                    paymentMethod: paymentMethod,
+                // Add current cart to order history
+                const order = {
+                    date: new Date().toLocaleString(),
+                    items: [...cart], // Create a copy of the cart items
+                    total: cart.reduce((sum, item) => sum + item.price, 0),
                     rating: null // Initialize rating as null
                 };
-                pastOrders.push(newOrder);
-                deliveredOrders.push(newOrder); // Add to delivered orders for history
-                savePastOrders();
-                saveDeliveredOrders();
+                orderHistory.unshift(order); // Add to the beginning for most recent first
+                localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
 
-                cart = []; // Clear cart after order
-                saveCart();
-                updateRecentOrdersDisplay(); // Update recent orders display immediately
-                updateCartCount(); // Update cart count to 0
+                cart = []; // Clear the cart
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+            });
+
+            viewOrderHistoryBtn.addEventListener('click', () => {
+                renderOrderHistory();
+                orderHistoryModal.style.display = 'block';
+            });
+
+            function renderOrderHistory() {
+                orderHistoryItemsDiv.innerHTML = '';
+                if (orderHistory.length === 0) {
+                    orderHistoryItemsDiv.innerHTML = '<p class="text-gray-400">No order history available.</p>';
+                    return;
+                }
+                orderHistory.forEach((order, orderIndex) => {
+                    const orderDiv = document.createElement('div');
+                    orderDiv.classList.add('order-item-history');
+                    orderDiv.innerHTML = `
+                        <div>
+                            <h4>Order Date: ${order.date}</h4>
+                            <p>Total: $${order.total.toFixed(2)}</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            ${order.items.map(item => `
+                                <div class="flex items-center space-x-2">
+                                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                                    <span>${item.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="rating-section">
+                            <h5>Rate this order:</h5>
+                            <div class="rating" data-order-index="${orderIndex}">
+                                <span class="star ${order.rating >= 1 ? 'active' : ''}" data-value="1">★</span>
+                                <span class="star ${order.rating >= 2 ? 'active' : ''}" data-value="2">★</span>
+                                <span class="star ${order.rating >= 3 ? 'active' : ''}" data-value="3">★</span>
+                                <span class="star ${order.rating >= 4 ? 'active' : ''}" data-value="4">★</span>
+                                <span class="star ${order.rating >= 5 ? 'active' : ''}" data-value="5">★</span>
+                            </div>
+                            ${order.rating ? `<p class="text-sm text-gray-400 mt-2">You rated this order: ${order.rating} stars</p>` : ''}
+                        </div>
+                    `;
+                    orderHistoryItemsDiv.appendChild(orderDiv);
+                });
+                attachRatingEventListeners();
             }
 
+            function attachRatingEventListeners() {
+                document.querySelectorAll('.rating .star').forEach(star => {
+                    star.addEventListener('click', (e) => {
+                        const orderIndex = parseInt(e.target.closest('.rating').dataset.orderIndex);
+                        const ratingValue = parseInt(e.target.dataset.value);
 
-            function attachStarRatingListeners() {
-                document.querySelectorAll('.rating').forEach(ratingContainer => {
-                    const orderId = ratingContainer.dataset.orderId;
-                    const stars = ratingContainer.querySelectorAll('.star');
-
-                    stars.forEach(star => {
-                        star.addEventListener('click', function() {
-                            const value = parseInt(this.dataset.value);
-                            // Update UI: highlight selected stars
-                            stars.forEach(s => {
-                                if (parseInt(s.dataset.value) <= value) {
-                                    s.classList.add('active');
-                                    s.querySelector('i').classList.remove('far');
-                                    s.querySelector('i').classList.add('fas');
-                                } else {
-                                    s.classList.remove('active');
-                                    s.querySelector('i').classList.remove('fas');
-                                    s.querySelector('i').classList.add('far');
-                                }
-                            });
-                            // Store rating in deliveredOrders
-                            const orderIndex = deliveredOrders.findIndex(order => order.orderId === orderId);
-                            if (orderIndex !== -1) {
-                                deliveredOrders[orderIndex].rating = value;
-                                saveDeliveredOrders();
-                                // Optional: Update order history display to show new rating
-                                updateOrderHistoryDisplay();
-                            }
-                        });
+                        orderHistory[orderIndex].rating = ratingValue;
+                        localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+                        renderOrderHistory(); // Re-render to show updated rating
                     });
-
-                    // Restore rating from localStorage if available
-                    const orderInHistory = deliveredOrders.find(order => order.orderId === orderId);
-                    if (orderInHistory && orderInHistory.rating) {
-                        stars.forEach(star => {
-                            if (parseInt(star.dataset.value) <= orderInHistory.rating) {
-                                star.classList.add('active');
-                                star.querySelector('i').classList.remove('far');
-                                star.querySelector('i').classList.add('fas');
-                            }
-                        });
-                    }
                 });
             }
 
+            // Initial cart count update on page load
+            updateCartCount();
         });
     </script>
 </body>

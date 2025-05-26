@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>My Portfolio - Responsive Personal Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>My Portfolio - Responsive Personal Website</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Variables for easy theme and color management */
@@ -35,7 +34,8 @@
             background-color: var(--dark-bg-color);
             color: var(--light-text-color);
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease-in-out;
-            background-image: url('images/main-background.jpg'); /* **REPLACE WITH YOUR IMAGE PATH** */
+            /* Ensure these image paths are correct for your project */
+            background-image: url('images/main-background.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -43,6 +43,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
 
         /* Optional body animation on load */
@@ -63,13 +64,15 @@
         ul {
             list-style: none;
             padding: 0;
+            margin: 0; /* Ensure no default margin */
         }
 
         /* Dark Mode Styles */
         body.dark {
             background-color: #2d3748;
             color: var(--dark-text-color);
-            background-image: url('images/dark-main-background.jpg'); /* Optional: different image for dark mode */
+            /* Optional: different image for dark mode. Ensure path is correct. */
+            background-image: url('images/dark-main-background.jpg');
         }
 
         body.dark a {
@@ -79,16 +82,18 @@
         /* Image & Video Responsiveness */
         img {
             max-width: 100%;
-            height: auto;
+            height: auto; /* Maintain aspect ratio */
             border-radius: 48px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: block; /* Remove extra space below images */
         }
 
         video {
             max-width: 100%;
-            height: auto;
+            height: auto; /* Maintain aspect ratio */
             border-radius: 10%;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: block; /* Remove extra space below videos */
         }
 
         /* Header */
@@ -105,6 +110,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-sizing: border-box;
         }
 
         header .container {
@@ -115,6 +121,7 @@
             margin: 0 auto;
             padding: 0 1rem;
             width: 100%;
+            box-sizing: border-box;
         }
 
         header .logo {
@@ -122,13 +129,14 @@
             font-weight: bold;
             cursor: pointer;
             letter-spacing: 1px;
+            flex-shrink: 0; /* Prevent logo from shrinking */
         }
 
         /* Navigation Menu (Hidden by default, shown with JS) */
         header nav {
-            display: none;
+            display: none; /* Hidden by default for mobile */
             position: absolute;
-            top: 100%;
+            top: 100%; /* Position below the header */
             right: 1rem;
             background-color: var(--primary-color);
             padding: 1.2rem 1.5rem;
@@ -140,10 +148,12 @@
             opacity: 0;
             transform: translateY(-10px);
             transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            min-width: 150px; /* Ensure a minimum width for the nav menu */
+            box-sizing: border-box;
         }
 
         header nav.open {
-            display: flex;
+            display: flex; /* Show when 'open' class is added by JS */
             opacity: 1;
             transform: translateY(0);
         }
@@ -155,6 +165,7 @@
             align-items: center;
             padding: 0.3rem 0;
             position: relative;
+            white-space: nowrap; /* Prevent menu items from wrapping */
         }
 
         header nav a:hover {
@@ -182,7 +193,9 @@
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
-            padding-top: 5rem;
+            padding-top: 5rem; /* Space for fixed header */
+            box-sizing: border-box;
+            width: calc(100% - 2rem); /* Adjust width to account for padding */
         }
 
         /* General Section Styling */
@@ -194,6 +207,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
+            box-sizing: border-box;
         }
 
         section h2 {
@@ -221,6 +235,8 @@
             padding: 1.2rem;
             margin-top: auto;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            width: 100%;
         }
 
         /* Theme Toggle Button */
@@ -238,6 +254,10 @@
             z-index: 20;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: flex; /* Use flex to center icon */
+            align-items: center;
+            justify-content: center;
+            line-height: 1; /* Remove extra line height */
         }
 
         .theme-toggle:hover {
@@ -251,25 +271,27 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Allows items to wrap onto next line */
             gap: 40px;
             text-align: center;
         }
 
         .welcome-text,
         .intro-text {
-            flex: 1;
-            min-width: 300px;
+            flex: 1; /* Allows text to take available space */
+            min-width: 300px; /* Minimum width before wrapping */
             font-size: 1.1rem;
             line-height: 1.6;
+            box-sizing: border-box;
         }
 
         .welcome-media,
         .intro-video {
-            flex: 1;
+            flex: 1; /* Allows media to take available space */
             display: flex;
             justify-content: center;
-            min-width: 320px;
+            min-width: 320px; /* Minimum width before wrapping */
+            box-sizing: border-box;
         }
 
         /* Google Map iframe */
@@ -280,6 +302,8 @@
             border: 0;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: block; /* Remove extra space below iframe */
+            margin: 0 auto; /* Center the iframe */
         }
 
         /* Quotes Section Styling */
@@ -296,6 +320,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
+            box-sizing: border-box;
         }
 
         body.dark #quotes-section {
@@ -315,7 +340,9 @@
             transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
             text-align: center;
-            color:rgb(255, 1, 1)
+            color:rgb(255, 1, 1);
+            padding: 0 1rem; /* Add horizontal padding for small screens */
+            box-sizing: border-box;
         }
 
         .quote-display.active {
@@ -324,10 +351,11 @@
         }
 
         /* Shop Section Specifics */
-        #shop-section { /* Renamed for clarity to avoid conflict with shop.css */
+        #shop-section {
             padding: 40px 20px;
             background-color: var(--section-bg-light);
             color: var(--light-text-color);
+            box-sizing: border-box;
         }
 
         body.dark #shop-section {
@@ -340,7 +368,7 @@
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid columns */
             gap: 25px;
             justify-items: center;
         }
@@ -352,9 +380,10 @@
             border-radius: 10px;
             box-shadow: 0 6px 12px var(--card-shadow-light);
             text-align: center;
-            width: 100%;
-            max-width: 320px;
+            width: 100%; /* Take full width of grid column */
+            max-width: 320px; /* Max width for larger screens */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
         }
 
         body.dark .product-card {
@@ -399,6 +428,8 @@
             display: inline-block;
             transition: background-color 0.3s ease, transform 0.2s ease;
             font-weight: bold;
+            min-width: 120px; /* Ensure good touch target */
+            box-sizing: border-box;
         }
 
         .product-card .btn:hover {
@@ -418,6 +449,8 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
+            min-width: 140px; /* Ensure good touch target */
+            box-sizing: border-box;
         }
 
         .sop:hover {
@@ -435,6 +468,7 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+            box-sizing: border-box;
         }
 
         .language-bar-container {
@@ -454,7 +488,7 @@
             text-align: right;
             font-size: 1.1rem;
             border-radius: 6px;
-            width: 0%;
+            width: 0%; /* Initial width for animation */
             transition: width 1s ease-out;
             white-space: nowrap;
             box-sizing: border-box;
@@ -489,8 +523,13 @@
             font-size: 2rem;
             cursor: pointer;
             padding: 0;
-            display: block;
+            display: block; /* Always display for mobile */
             transition: transform 0.2s ease;
+            min-width: 44px; /* Recommended touch target size */
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .heminberg-button:hover {
@@ -516,6 +555,8 @@
             text-decoration: none;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             font-weight: bold;
+            min-width: 150px; /* Ensure good touch target */
+            box-sizing: border-box;
         }
 
         .resume-button-about:hover {
@@ -529,6 +570,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 10px;
+            flex-wrap: wrap; /* Allow text to wrap if long */
         }
 
         .contact-icon {
@@ -537,6 +579,7 @@
             margin-right: 10px;
             width: 25px;
             text-align: center;
+            flex-shrink: 0; /* Prevent icon from shrinking */
         }
 
         .social-links {
@@ -557,6 +600,13 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            padding: 0.5rem; /* Add padding for better touch target */
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .social-icon {
@@ -577,6 +627,8 @@
             max-width: 550px;
             margin-left: auto;
             margin-right: auto;
+            box-sizing: border-box;
+            padding: 0 1rem; /* Add padding for smaller screens */
         }
 
         #contact form input[type="text"],
@@ -589,6 +641,8 @@
             color: #333;
             font-size: 1.05rem;
             transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+            width: 100%; /* Ensure full width */
+            box-sizing: border-box;
         }
 
         body.dark #contact form input[type="text"],
@@ -626,6 +680,8 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             font-weight: bold;
+            width: 100%; /* Ensure full width */
+            box-sizing: border-box;
         }
 
         #contact form button[type="submit"]:hover {
@@ -635,16 +691,39 @@
         }
 
         /* Media Queries for Responsiveness */
+        @media (min-width: 769px) {
+            /* On larger screens, hide the hamburger button */
+            .heminberg-container {
+                display: none;
+            }
+            /* Show the full navigation menu */
+            header nav {
+                position: static; /* Remove absolute positioning */
+                display: flex; /* Always show */
+                flex-direction: row; /* Arrange horizontally */
+                gap: 1.5rem; /* Space out items */
+                background-color: transparent; /* No background */
+                padding: 0; /* No padding */
+                box-shadow: none; /* No shadow */
+                opacity: 1;
+                transform: translateY(0);
+            }
+            header nav a {
+                padding: 0; /* Remove padding */
+                font-size: 1.1rem;
+            }
+        }
+
         @media (max-width: 768px) {
             header .logo {
                 font-size: 1.5rem;
             }
 
             header nav {
-                top: 60px;
+                top: 60px; /* Adjust dropdown position */
                 right: 0.5rem;
                 padding: 1rem;
-                width: calc(100% - 1rem);
+                width: calc(100% - 1rem); /* Full width minus padding */
                 align-items: flex-start;
             }
 
@@ -657,21 +736,21 @@
             /* Adjust content layout for smaller screens */
             .welcome-content,
             .intro-content {
-                flex-direction: column;
+                flex-direction: column; /* Stack items vertically */
                 text-align: center;
                 gap: 25px;
             }
 
             .welcome-text,
             .intro-text {
-                min-width: unset;
+                min-width: unset; /* Remove min-width for full flexibility */
                 font-size: 1rem;
             }
 
             .welcome-media,
             .intro-video {
-                min-width: unset;
-                width: 90%;
+                min-width: unset; /* Remove min-width for full flexibility */
+                width: 90%; /* Adjust width of media */
             }
 
             img, video {
@@ -721,7 +800,7 @@
             }
 
             .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Adjust min product card width */
                 gap: 15px;
             }
 
@@ -809,10 +888,10 @@
             }
 
             .product-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Single column on very small screens */
             }
             .product-card {
-                max-width: 90%;
+                max-width: 90%; /* Adjust max-width for single column layout */
                 margin: 0 auto;
             }
 
@@ -841,17 +920,16 @@
         <div class="container">
             <div class="logo">Gaurav Thakur</div>
             <div class="heminberg-container">
-                <button class="heminberg-button">☰</button>
+                <button class="heminberg-button" aria-label="Toggle navigation menu">☰</button>
             </div>
             <nav id="nav-menu">
                 <a href="#about"> About Me</a>
                 <a href="#achievements"> Achievements</a>
-                
                 <a href="#personal"> Personal Side</a>
                 <a href="#contact"> Contact</a>
-                <a href="index1/2.html"> Day 1&2</a>
-                <a href="index3&4.html"> Day 3&4</a>
-                <a href="index5.html"> Day 5</a>
+                <a href="index1/2.html"> Day1&2</a>
+                <a href="index3&4.html"> Day3&4</a>
+                <a href="index5.html"> Day5</a>
             </nav>
         </div>
     </header>
@@ -859,10 +937,7 @@
     <main>
         <section id="welcome">
             <h2>Welcome</h2>
-            
-                 <div class="quote-display"></div>
-                
-            </div>
+            <div class="quote-display"></div>
             <div class="welcome-content">
                 <div class="welcome-text">
                     <p>
@@ -872,22 +947,17 @@
                     </p>
                 </div>
                 <div class="welcome-media">
-                    <img src="pic1.jpg" alt="Portrait photo of me" />
+                    <img src="pic1.jpg" alt="Portrait photo of me" onerror="this.onerror=null;this.src='https://placehold.co/300x300/cccccc/333333?text=Your+Image';" />
                 </div>
             </div>
         </section>
-
-       
-          
-         
-       
 
         <section id="introduction">
             <h2>Introduction</h2>
             <div class="intro-content">
                 <div class="intro-video">
                     <video controls>
-                        <source src="intro 1 .mp4" type="video/mp4" />
+                        <source src="intro 1 .mp4" type="video/mp4" onerror="this.onerror=null;this.src='';" />
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -915,8 +985,7 @@
                         </div>
                     </div>
                     <div class="language-bar-container">
-                        <div class="language-bar" style="width: 85%;">
-                            <span class="language-label">Hindi</span> 100%
+                        <div class="language-bar" style="width: 100%;"> <span class="language-label">Hindi</span> 100%
                         </div>
                     </div>
                     <div class="language-bar-container">
@@ -950,12 +1019,6 @@
             </ul>
         </section>
 
-        <section id="shop-section">
-            <div class="shopping" style="text-align: center;">
-                <h2>Shopping</h2>
-                <a href="shop.html" class="cta-btn"><button class="sop">View MyShop</button></a>
-            </div>
-        </section>
 
         <section id="contact">
             <h2>Contact Me</h2>
@@ -964,12 +1027,11 @@
                 <p><i class="fas fa-phone contact-icon"></i> <strong>Phone:</strong> <a href="tel:+918692029659">+91 869 202 9659</a></p>
                 <p><i class="fab fa-whatsapp contact-icon"></i> <strong>WhatsApp:</strong> <a href="https://wa.me/918692029659" target="_blank">Chat with me on WhatsApp</a></p>
 
-                
                 <p><strong>Social Media:</strong></p>
-<ul class="social-links">
-    <li><a href="https://github.com/gauravthakur003" target="_blank"><i class="fab fa-github social-icon"></i> GitHub</a></li>
-    <li><a href="https://www.linkedin.com/in/gaurav-thakur-684b662a6" target="_blank"><i class="fab fa-linkedin social-icon"></i> LinkedIn</a></li>
-</ul>
+                <ul class="social-links">
+                    <li><a href="https://github.com/gauravthakur003" target="_blank"><i class="fab fa-github social-icon"></i> GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/gaurav-thakur-684b662a6" target="_blank"><i class="fab fa-linkedin social-icon"></i> LinkedIn</a></li>
+                </ul>
 
                 <h3>Send me a message</h3>
                 <form>
@@ -981,24 +1043,57 @@
 
                 <h3>Google Map Location</h3>
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30153.256221774315!2d72.77537599026402!3d19.143738016462945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b715dd7e50b9%3A0x88981f3377777085!2sMalad%2C%20Mumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1716550428588!5m2!1sen!2sin"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15065.73307590815!2d72.7844075!3d19.4674176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7a6a43f826353%3A0xc3f5c7e0c4a4f828!2sPalghar%2C%20Maharashtra%20401404!5e0!3m2!1sen!2sin!4v1716709497746!5m2!1sen!2sin"
                     allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
+
         </section>
+
+
+        <section id="shop-section">
+            <div class="shopping" style="text-align: center;">
+                <a href="shop.html" class="cta-btn"><button class="sop">View MyShop</button></a>
+            </div>
+        </section>
+
     </main>
 
     <footer>
         <p>© 2025 Gaurav Thakur | <a href="mailto:123gaurav2054@sjcem.edu.in">123gaurav2054@sjcem.edu.in</a></p>
     </footer>
 
-    <button class="theme-toggle">🌙</button>
+    <button class="theme-toggle" aria-label="Toggle dark/light theme">🌙</button>
 
     <script>
         const themeToggle = document.querySelector('.theme-toggle');
         const body = document.body;
         const navMenu = document.getElementById('nav-menu');
         const heminbergButton = document.querySelector('.heminberg-button');
+        const quoteDisplay = document.querySelector('.quote-display');
+
+        const quotes = [
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "Innovation distinguishes between a leader and a follower. - Steve Jobs",
+            "Strive not to be a success, but rather to be of value. - Albert Einstein",
+            "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+            "Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill"
+        ];
+
+        let currentQuoteIndex = 0;
+
+        function displayQuote() {
+            quoteDisplay.classList.remove('active');
+            setTimeout(() => {
+                quoteDisplay.textContent = quotes[currentQuoteIndex];
+                quoteDisplay.classList.add('active');
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+            }, 600); // Wait for fade-out before changing text and fading in
+        }
+
+        // Call displayQuote initially and set an interval for rotation
+        displayQuote();
+        setInterval(displayQuote, 5000); // Change quote every 5 seconds
 
         // Theme Toggle
         themeToggle.addEventListener('click', () => {
@@ -1013,69 +1108,68 @@
             themeToggle.textContent = '☀️';
         }
 
-        // Heminberg (Hamburger) Menu Toggle
+        // Hamburger menu toggle functionality
         heminbergButton.addEventListener('click', () => {
             navMenu.classList.toggle('open');
         });
 
-        // Close header when a navigation link is clicked
-        const navLinks = navMenu.querySelectorAll('a');
-        navLinks.forEach(link => {
+        // Close nav when a link is clicked (improves mobile UX)
+        navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                navMenu.classList.remove('open');
+                if (navMenu.classList.contains('open')) {
+                    navMenu.classList.remove('open');
+                }
             });
         });
 
-        // DOM Content Loaded actions
-        document.addEventListener('DOMContentLoaded', () => {
-            // Animate language bars on page load
-            const languageBars = document.querySelectorAll('.language-bar');
-            languageBars.forEach(bar => {
-                const targetWidth = bar.style.width; // Get the width from inline style
-                bar.style.width = '0%'; // Reset to 0 for animation start
-                setTimeout(() => {
-                    bar.style.width = targetWidth; // Animate to target width
-                }, 100); // Small delay to ensure initial rendering
-            });
+        // Animate language bars on scroll into view
+        const languageBars = document.querySelectorAll('.language-bar');
+        const languageGraphSection = document.getElementById('about'); // Assuming graph is in 'about' section
 
-            // Dynamic Quotes functionality
-            const quotes = [
-                "The only way to do great work is to love what you do.",
-                "Believe you can and you're halfway there.",
-                "The future belongs to those who believe in the beauty of their dreams.",
-                "It always seems impossible until it's done.",
-                "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-                "Your time is limited, don't waste it living someone else's life.",
-                "The best way to predict the future is to create it.",
-                "Don't watch the clock; do what it does. Keep going.",
-                "What you get by achieving your goals is not as important as what you become by achieving your goals.",
-                "The mind is everything. What you think you become."
-            ];
-            let currentQuoteIndex = 0;
-            const quoteDisplay = document.querySelector('.quote-display');
-
-            function displayQuote() {
-                // Remove 'active' class to start fade-out
-                quoteDisplay.classList.remove('active');
-
-                // Wait for the fade-out transition to complete (0.6s as defined in CSS)
-                setTimeout(() => {
-                    // Update content with the next quote
-                    quoteDisplay.textContent = quotes[currentQuoteIndex];
-                    // Add 'active' class to fade in the new quote
-                    quoteDisplay.classList.add('active');
-
-                    // Move to the next quote, looping back to the start if at the end
-                    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-                }, 600); // This timeout should match the CSS transition duration for .quote-display
+        const animateBars = () => {
+            const rect = languageGraphSection.getBoundingClientRect();
+            // Check if the section is in the viewport
+            if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                languageBars.forEach(bar => {
+                    const width = bar.style.width; // Get the target width from inline style
+                    bar.style.width = '0%'; // Reset to 0 for animation
+                    // Force reflow before setting final width
+                    void bar.offsetWidth;
+                    bar.style.width = width; // Set to target width to trigger transition
+                });
+                // Remove the event listener after animation to prevent re-triggering
+                window.removeEventListener('scroll', animateBars);
             }
+        };
 
-            // Initial display of the first quote when the page loads
-            displayQuote();
+        // Add event listener for scroll to trigger animation
+        window.addEventListener('scroll', animateBars);
+        // Also call it once on load in case the section is already in view
+        animateBars();
 
-            // Set interval for changing quotes every 5 seconds (adjust as needed)
-            setInterval(displayQuote, 5000);
+        // Add onerror for images and videos to prevent broken icons
+        // For images:
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function() {
+                this.onerror=null;
+                this.src='https://placehold.co/300x300/cccccc/333333?text=Image+Not+Found';
+            };
         });
+
+        // For videos:
+        document.querySelectorAll('video source').forEach(source => {
+            source.onerror = function() {
+                this.onerror=null;
+                this.parentElement.style.display = 'none'; // Hide the video element if source fails
+                const parentDiv = this.parentElement.parentElement;
+                const message = document.createElement('p');
+                message.textContent = 'Video not available.';
+                message.style.color = 'red';
+                message.style.textAlign = 'center';
+                parentDiv.appendChild(message);
+            };
+        });
+
     </script>
 </body>
 </html>
